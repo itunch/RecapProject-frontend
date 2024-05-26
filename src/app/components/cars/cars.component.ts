@@ -3,6 +3,7 @@ import { Car } from '../../models/car';
 import { HttpClient } from '@angular/common/http';
 import { CarResponseModel } from '../../models/carResponseModel';
 import { CarService } from '../../services/car.service';
+import { CarDetail } from '../../models/carDetail';
 
 @Component({
   selector: 'app-cars',
@@ -11,12 +12,14 @@ import { CarService } from '../../services/car.service';
 })
 export class CarsComponent implements OnInit {
   cars: Car[] = [];
+  carDetails: CarDetail[] = [];
   dataLoaded = false;
 
   constructor(private carService: CarService) { }
 
   ngOnInit(): void {
     this.getCars();
+    this.getCarDetails();
   }
 
   getCars() {
@@ -24,6 +27,13 @@ export class CarsComponent implements OnInit {
       this.cars = response.data
       this.dataLoaded = true
     });
+  }
+
+  getCarDetails() {
+    this.carService.getCarDetails().subscribe(response => {
+      this.carDetails = response.data
+      this.dataLoaded = true;
+    })
   }
 
 }
